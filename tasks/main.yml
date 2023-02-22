@@ -1,0 +1,19 @@
+# Copyright (c) 2023, Bennett Samowich <bennett@foolean.org>
+# All rights reserved
+# SPDX short identifier: BSD-3-Clause
+---
+
+# We put the entire role in a block so we can create
+# a role specific tag, which saves the caller from
+# having to do so in their playbook.
+- name: Role foolean/ssh
+  block:
+
+  - name: Configure SSH server
+    ansible.builtin.import_tasks:
+      file: 'server.yml'
+    when: ssh_server_enable is true
+
+  # Tags to be applied to this role (block)
+  tags:
+    - 'role_foolean_ssh'

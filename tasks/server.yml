@@ -1,0 +1,50 @@
+# Copyright (c) 2023, Bennett Samowich <bennett@foolean.org>
+# All rights reserved
+# SPDX short identifier: BSD-3-Clause
+---
+
+- name: Install openssh-server
+  become: true
+  ansible.builtin.package:
+    name: 'openssh-server'
+    state: present
+
+- name: Configure sshd
+  become: true
+  ansible.builtin.template:
+    src: 'etc/ssh/sshd_config.j2'
+    dest: '/etc/ssh/sshd_config'
+    owner: 'root'
+    group: 'root'
+    mode: '0600'
+  notify:
+    - Restart sshd
+
+- name: CIS | Ensure system-wide crypto policy is not over-ridden
+  become: true
+  ansible.builtin.template:
+    src: 'etc/sysconfig/sshd.j2'
+    dest: '/etc/sysconfig/sshd'
+    owner: 'root'
+    group: 'root'
+    mode: '0640'
+
+- name: Ensure DSA host keys are removed
+  become: true
+  ansible.builtin.file:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - '/etc/ssh/ssh_host_dsa_key'
+    - '/etc/ssh/ssh_host_dsa_key.pub'
+
+- name: Ensure sshd is running
+  become: true
+  ansible.builtin.systemd:
+    name: 'sshd'
+    state: started
+
+# Flush any handlers that we might have called
+- name: Flush handlers
+  ansible.builtin.meta:
+    flush_handlers

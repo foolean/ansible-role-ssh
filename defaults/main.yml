@@ -1,0 +1,61 @@
+# Copyright (c) 2023, Bennett Samowich <bennett@foolean.org>
+# All rights reserved
+# SPDX short identifier: BSD-3-Clause
+---
+
+# ssh_allowtcpforwarding
+#   Specifies whether TCP forwarding is permitted
+#   (default: no) ref: CIS
+ssh_allowtcpforwarding: 'no'
+
+# ssh_allow_groups
+#   List of groups that are permitted access to this server
+#   (default: null)
+ssh_allow_groups: null
+
+# ssh_allow_users
+#   List of users that are permitted access to this server
+#   Note: root will always be included
+#   (default: null) ref: CIS
+ssh_allow_users: null
+
+# ssh_deny_groups
+#   List of groups that should be denied access to this server
+#   (default: null)
+ssh_deny_groups: null
+
+# ssh_deny_users
+#   List of users that should be denied access to this server
+#   (default: null)
+ssh_deny_users: null
+
+# ssh_maxauthtries
+#   Specifies the maximum number of authentication attempts permitted per
+#   connection.  Once the number of failures reaches half this value,
+#   additional failures are logged.
+#   (default: 4) ref: CIS
+ssh_maxauthtries: 4
+
+# ssh_maxsessions
+#   Specifies the maximum number of open shell, login or subsystem (e.g.
+#   sftp) sessions permitted per network connection.
+#   (default: 10) ref: CIS
+ssh_maxsessions: 10
+
+# ssh_permitrootlogin
+#   Specifies whether root can log in using ssh(1).  The argument must
+#   be "yes", "without-password", "forced-commands-only", or "no".
+#   (default: no) ref: CIS
+ssh_permitrootlogin: 'no'
+
+# ssh_server_enable
+#   Specify if the SSH daemon should be running
+#   (default: true)
+ssh_server_enable: true
+
+# ssh_x11forwarding
+#   Specifies whether X11 forwarding is enabled.  The argument
+#   must be either "yes" or "no".
+#   (default: no) ref: CIS
+ssh_x11forwarding: 'no'
+
