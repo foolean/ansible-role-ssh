@@ -37,12 +37,198 @@
   with_items:
     - '/etc/ssh/ssh_host_dsa_key'
     - '/etc/ssh/ssh_host_dsa_key.pub'
+  notify:
+    - Restart sshd
+
+# ------------------------------------------------------------------------------
+# ed25519 keys
+# ------------------------------------------------------------------------------
+
+- name: Configure ed25519 host private key
+  become: true
+  ansible.builtin.copy:
+    content: "{{ ssh_host_ed25519_private_key }}"
+    dest: '/etc/ssh/ssh_host_ed25519_key'
+    owner: 'root'
+    group: 'root'
+    mode: '0600'
+  notify:
+    - Restart sshd
+  when:
+    - ssh_host_ed25519_private_key != None
+    - ssh_host_ed25519_public_key != None
+
+- name: Configure ed25519 host public key
+  become: true
+  ansible.builtin.copy:
+    content: "{{ ssh_host_ed25519_public_key }}"
+    dest: '/etc/ssh/ssh_host_ed25519_key.pub'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify:
+    - Restart sshd
+  when:
+    - ssh_host_ed25519_private_key != None
+    - ssh_host_ed25519_public_key != None
+
+- name: Create ed25519 host key
+  become: true
+  ansible.builtin.command:
+    cmd: 'ssh-keygen -t ed25519 -C "" -f /etc/ssh/ssh_host_ed25519_key'
+    creates: '/etc/ssh/ssh_host_ed25519_key'
+  when:
+    - ssh_host_ed25519_private_key == None
+    - ssh_host_ed25519_public_key == None
+
+- name: Ensure permissions on ed25519 host private key are configured
+  become: true
+  ansible.builtin.file:
+    name: '/etc/ssh/ssh_host_ed25519_key'
+    owner: 'root'
+    group: 'root'
+    mode: '0600'
+  notify:
+    - Restart sshd
+
+- name: Ensure permissions on ed25519 host public key are configured
+  become: true
+  ansible.builtin.file:
+    name: '/etc/ssh/ssh_host_ed25519_key.pub'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify:
+    - Restart sshd
+
+# ------------------------------------------------------------------------------
+# ecdsa keys
+# ------------------------------------------------------------------------------
+
+- name: Configure ecdsa host private key
+  become: true
+  ansible.builtin.copy:
+    content: "{{ ssh_host_ecdsa_private_key }}"
+    dest: '/etc/ssh/ssh_host_ecdsa_key'
+    owner: 'root'
+    group: 'root'
+    mode: '0600'
+  notify:
+    - Restart sshd
+  when:
+    - ssh_host_ecdsa_private_key != None
+    - ssh_host_ecdsa_public_key != None
+
+- name: Configure ecdsa host public key
+  become: true
+  ansible.builtin.copy:
+    content: "{{ ssh_host_ecdsa_public_key }}"
+    dest: '/etc/ssh/ssh_host_ecdsa_key.pub'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify:
+    - Restart sshd
+  when:
+    - ssh_host_ecdsa_private_key != None
+    - ssh_host_ecdsa_public_key != None
+
+- name: Create ecdsa host key
+  become: true
+  ansible.builtin.command:
+    cmd: 'ssh-keygen -t ecdsa -b 521 -C "" -f /etc/ssh/ssh_host_ecdsa_key'
+    creates: '/etc/ssh/ssh_host_ecdsa_key'
+  when:
+    - ssh_host_ecdsa_private_key == None
+    - ssh_host_ecdsa_public_key == None
+
+- name: Ensure permissions on ecdsa host private key are configured
+  become: true
+  ansible.builtin.file:
+    name: '/etc/ssh/ssh_host_ecdsa_key'
+    owner: 'root'
+    group: 'root'
+    mode: '0600'
+  notify:
+    - Restart sshd
+
+- name: Ensure permissions on ecdsa host public key are configured
+  become: true
+  ansible.builtin.file:
+    name: '/etc/ssh/ssh_host_ecdsa_key.pub'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify:
+    - Restart sshd
 
 - name: Ensure sshd is running
   become: true
   ansible.builtin.systemd:
     name: 'sshd'
     state: started
+
+# ------------------------------------------------------------------------------
+# rsa keys
+# ------------------------------------------------------------------------------
+
+- name: Configure rsa host private key
+  become: true
+  ansible.builtin.copy:
+    content: "{{ ssh_host_rsa_private_key }}"
+    dest: '/etc/ssh/ssh_host_rsa_key'
+    owner: 'root'
+    group: 'root'
+    mode: '0600'
+  notify:
+    - Restart sshd
+  when:
+    - ssh_host_rsa_private_key != None
+    - ssh_host_rsa_public_key != None
+
+- name: Configure rsa host public key
+  become: true
+  ansible.builtin.copy:
+    content: "{{ ssh_host_rsa_public_key }}"
+    dest: '/etc/ssh/ssh_host_rsa_key.pub'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify:
+    - Restart sshd
+  when:
+    - ssh_host_rsa_private_key != None
+    - ssh_host_rsa_public_key != None
+
+- name: Create rsa host key
+  become: true
+  ansible.builtin.command:
+    cmd: 'ssh-keygen -t rsa -b 4096 -C "" -f /etc/ssh/ssh_host_rsa_key'
+    creates: '/etc/ssh/ssh_host_rsa_key'
+  when:
+    - ssh_host_rsa_private_key == None
+    - ssh_host_rsa_public_key == None
+
+- name: Ensure permissions on rsa host private key are configured
+  become: true
+  ansible.builtin.file:
+    name: '/etc/ssh/ssh_host_rsa_key'
+    owner: 'root'
+    group: 'root'
+    mode: '0600'
+  notify:
+    - Restart sshd
+
+- name: Ensure permissions on rsa host public key are configured
+  become: true
+  ansible.builtin.file:
+    name: '/etc/ssh/ssh_host_rsa_key.pub'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify:
+    - Restart sshd
+# ------------------------------------------------------------------------------
 
 # Flush any handlers that we might have called
 - name: Flush handlers

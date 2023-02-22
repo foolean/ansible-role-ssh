@@ -29,6 +29,36 @@ ssh_deny_groups: null
 #   (default: null)
 ssh_deny_users: null
 
+# ssh_host_ecdsa_private_key
+#   ecdsa private key text
+#   (default: null)
+ssh_host_ecdsa_private_key: null
+
+# ssh_host_ecdsa_public_key
+#   ecdsa public key text
+#   (default: null)
+ssh_host_ecdsa_public_key: null
+
+# ssh_host_ed25519_private_key
+#   ed25519 private key text
+#   (default: null)
+ssh_host_ed25519_private_key: null
+
+# ssh_host_ed25519_public_key
+#   ed25519 public key text
+#   (default: null)
+ssh_host_ed25519_public_key: null
+
+# ssh_host_rsa_private_key
+#   rsa private key text
+#   (default: null)
+ssh_host_rsa_private_key: null
+
+# ssh_host_rsa_public_key
+#   rsa public key text
+#   (default: null)
+ssh_host_rsa_public_key: null
+
 # ssh_maxauthtries
 #   Specifies the maximum number of authentication attempts permitted per
 #   connection.  Once the number of failures reaches half this value,
