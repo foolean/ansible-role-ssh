@@ -17,8 +17,9 @@
 # SELinux about this change.
 # semanage port -a -t ssh_port_t -p tcp #PORTNUMBER
 #
-#Port 22
-#AddressFamily any
+Port 22
+# CIS: Verify if IPv6 is enabled on the system
+AddressFamily inet
 #ListenAddress 0.0.0.0
 #ListenAddress ::
 
@@ -50,7 +51,8 @@ PermitRootLogin {{ ssh_permitrootlogin }}
 #StrictModes yes
 # CIS: Ensure SSH MaxAuthTries is set to 4 or less
 MaxAuthTries {{ ssh_maxauthtries }}
-#MaxSessions 10
+# CIS: Ensure SSH MaxSessions is set to 10 or less
+MaxSessions {{ ssh_maxsessions }}
 
 #PubkeyAuthentication yes
 
