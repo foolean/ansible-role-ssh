@@ -9,10 +9,10 @@
 - name: Role foolean/ssh
   block:
 
-  - name: Configure SSH server
-    ansible.builtin.import_tasks:
-      file: 'server.yml'
-    when: ssh_server_enable is true
+    - name: Configure SSH server
+      ansible.builtin.import_tasks:
+        file: 'server.yml'
+      when: ssh_server_enable is true
 
   # Tags to be applied to this role (block)
   tags:

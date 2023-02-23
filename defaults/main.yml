@@ -88,4 +88,3 @@ ssh_server_enable: true
 #   must be either "yes" or "no".
 #   (default: no) ref: CIS
 ssh_x11forwarding: 'no'
-
