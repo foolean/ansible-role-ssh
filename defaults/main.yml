@@ -19,6 +19,14 @@ ssh_allow_groups: null
 #   (default: null) ref: CIS
 ssh_allow_users: null
 
+# ssh_ciphers
+#   List of allowed ciphers
+#   (default: aes128-ctr,aes192-ctr,aes256-ctr) Ref: CIS
+ssh_ciphers:
+  - 'aes128-ctr'
+  - 'aes192-ctr'
+  - 'aes256-ctr'
+
 # ssh_deny_groups
 #   List of groups that should be denied access to this server
 #   (default: null)
@@ -59,6 +67,42 @@ ssh_host_rsa_private_key: null
 #   (default: null)
 ssh_host_rsa_public_key: null
 
+# ssh_hostkeyalgorithms
+# List of host key algorithms that the server offers.
+ssh_hostkeyalgorithms:
+  - 'ecdsa-sha2-nistp256-cert-v01@openssh.com'
+  - 'ecdsa-sha2-nistp384-cert-v01@openssh.com'
+  - 'ecdsa-sha2-nistp521-cert-v01@openssh.com'
+  - 'ssh-ed25519-cert-v01@openssh.com'
+  - 'ssh-rsa-cert-v01@openssh.com'
+  - 'ecdsa-sha2-nistp256'
+  - 'ecdsa-sha2-nistp384'
+  - 'ecdsa-sha2-nistp521'
+  - 'ssh-ed25519'
+  - 'ssh-rsa'
+  - 'rsa-sha2-512'
+  - 'rsa-sha2-256'
+
+# ssh_kexalgorithms
+#   List of available KEX (Key Exchange) algorithms.
+ssh_kexalgorithms:
+  - 'curve25519-sha256'
+  - 'curve25519-sha256@libssh.org'
+  - 'diffie-hellman-group14-sha256'
+  - 'diffie-hellman-group16-sha512'
+  - 'diffie-hellman-group18-sha512'
+  - 'ecdh-sha2-nistp521'
+  - 'ecdh-sha2-nistp384'
+  - 'ecdh-sha2-nistp256'
+  - 'diffie-hellman-group-exchange-sha256'
+
+# ssh_macs
+#   List of available MAC (message authentication code) algorithms.
+ssh_macs:
+  - 'hmac-sha2-512-etm@openssh.com'
+  - 'hmac-sha2-256-etm@openssh.com'
+  - 'hmac-sha2-512,hmac-sha2-256'
+
 # ssh_maxauthtries
 #   Specifies the maximum number of authentication attempts permitted per
 #   connection.  Once the number of failures reaches half this value,
@@ -67,10 +111,17 @@ ssh_host_rsa_public_key: null
 ssh_maxauthtries: 4
 
 # ssh_maxsessions
-#   Specifies the maximum number of open shell, login or subsystem (e.g.
-#   sftp) sessions permitted per network connection.
-#   (default: 10) ref: CIS
-ssh_maxsessions: 10
+#   Specifies the maximum number of open shell, login or subsystem
+#   (e.g. sftp) sessions permitted per network connection.
+#   (set to '1' to disable ControlMaster multiplexing)
+#
+#   Note:
+#   The CIS benchmark prescribes a value of 10 or less.  However,
+#   the CIS audit tool fails any value greater than 4.  It is for
+#   this reason that the default is set to 4 hear.
+#
+#   (default: 4) ref: CIS
+ssh_maxsessions: 4
 
 # ssh_permitrootlogin
 #   Specifies whether root can log in using ssh(1).  The argument must
@@ -82,6 +133,12 @@ ssh_permitrootlogin: 'no'
 #   Specify if the SSH daemon should be running
 #   (default: true)
 ssh_server_enable: true
+
+# ssh_crypto_policy_optout
+#   Opt-out of the system-wide crypto policy and
+#   use crypo settings defined in sshd_config
+#   (default: false)
+ssh_crypto_policy_optout: false
 
 # ssh_x11forwarding
 #   Specifies whether X11 forwarding is enabled.  The argument

@@ -14,4 +14,9 @@ SSH_USE_STRONG_RNG=0
 
 # System-wide crypto policy:
 # To opt-out, uncomment the following line
+# CIS: Ensure system-wide crypto policy is not over-ridden
+{% if ssh_crypto_policy_optout %}
 CRYPTO_POLICY=
+{% else %}
+# CRYPTO_POLICY=
+{% endif %}
