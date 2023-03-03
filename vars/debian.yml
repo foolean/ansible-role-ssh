@@ -1,0 +1,8 @@
+# Copyright (c) 2023, Bennett Samowich <bennett@foolean.org>
+# All rights reserved
+# SPDX short identifier: BSD-3-Clause
+---
+
+# ssh_sftp_server
+#   Path to the sftp server program
+ssh_sftp_server: '/usr/lib/openssh/sftp-server'

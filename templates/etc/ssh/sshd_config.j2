@@ -30,7 +30,7 @@ HostKey /etc/ssh/ssh_host_ed25519_key
 # Ciphers and keying
 #RekeyLimit default none
 
-{% if ssh_crypto_policy_optout %}
+{% if ssh_crypto_policy_optout or ansible_os_family|lower == "debian" %}
 # CIS: Use Only Approved Cipher in Counter Mode
 Ciphers {{ ssh_ciphers|unique|sort|join(',') }}
 
@@ -146,8 +146,8 @@ PrintMotd no
 PermitUserEnvironment no
 #Compression delayed
 # CIS: Ensure SSH Idle Timeout Interval is configured
-ClientAliveInterval 300
-ClientAliveCountMax 0
+ClientAliveInterval 120
+ClientAliveCountMax 3
 #UseDNS no
 #PidFile /var/run/sshd.pid
 # CIS: Ensure SSH MaxStartups is configured
@@ -207,7 +207,7 @@ AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
 AcceptEnv XMODIFIERS
 
 # override default of no subsystems
-Subsystem    sftp    /usr/libexec/openssh/sftp-server
+Subsystem    sftp    {{ ssh_sftp_server }}
 
 # Example of overriding settings on a per-user basis
 #Match User anoncvs

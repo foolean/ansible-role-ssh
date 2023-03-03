@@ -9,6 +9,13 @@
 - name: Role foolean/ssh
   block:
 
+    - name: Set OS variables
+      ansible.builtin.include_vars:
+        file: "{{ item }}"
+      with_first_found:
+        - "{{ ansible_os_family|lower }}.yml"
+        - "default.yml"
+
     - name: Configure SSH server
       ansible.builtin.import_tasks:
         file: 'server.yml'
