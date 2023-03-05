@@ -146,8 +146,8 @@ PrintMotd no
 PermitUserEnvironment no
 #Compression delayed
 # CIS: Ensure SSH Idle Timeout Interval is configured
-ClientAliveInterval 120
-ClientAliveCountMax 3
+ClientAliveInterval {{ ssh_clientaliveinterval }}
+ClientAliveCountMax {{ ssh_clientalivecountmax }}
 #UseDNS no
 #PidFile /var/run/sshd.pid
 # CIS: Ensure SSH MaxStartups is configured

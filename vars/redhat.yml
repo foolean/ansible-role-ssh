@@ -6,3 +6,14 @@
 # ssh_sftp_server
 #   Path to the sftp server program
 ssh_sftp_server: '/usr/libexec/openssh/sftp-server'
+
+# ssh_default_clientaliveinterval
+#   Sets a timeout interval in seconds after which if no data has been
+#   received from the client, sshd(8) will send a message through the
+#   encrypted channel to request a response from the client.
+ssh_default_clientaliveinterval: 900
+
+# ssh_default_clientalivecountmax
+#   Sets the number of client alive messages which may be sent without sshd(8)
+#   receiving any messages back from the client.
+ssh_default_clientalivecountmax: 0
